@@ -6,7 +6,7 @@ import org.lwjgl.util.glu.GLU;
 
 public class RenderHelper {
 
-    private static void color(float red, float green, float blue, float alpha) {
+    public static void color(float red, float green, float blue, float alpha) {
         GL11.glColor4f(red, green, blue, alpha);
     }
 
@@ -20,6 +20,22 @@ public class RenderHelper {
 
     public static void vertex(float x, float y) {
         GL11.glVertex2f(x, y);
+    }
+
+    public static void texcoord(float x, float y) {
+        GL11.glTexCoord2f(x, y);
+    }
+
+    public static void normal(float x, float y, float z) {
+        GL11.glNormal3f(x, y, z);
+    }
+
+    public static void begin(int mode) {
+        GL11.glBegin(mode);
+    }
+
+    public static void end() {
+        GL11.glEnd();
     }
 
     public static void texture(int texture) {

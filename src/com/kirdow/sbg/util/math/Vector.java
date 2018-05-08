@@ -72,4 +72,20 @@ public class Vector {
         return new Vector(-x, -y, -z, -w);
     }
 
+    public Vector rotate(Quaternion r) {
+        Quaternion conjugate = r.conjugate();
+
+        Quaternion w = r.mul(this).mul(conjugate);
+
+        return new Vector(w.x, w.y, w.z);
+    }
+
+    public static Vector fromEuler(Vector euler) {
+        final Vector forward = new Vector(0, 0, 1);
+
+        Quaternion r = new Quaternion(new Vector(0, 0, 1), euler.z).mul(new Quaternion(new Vector(1, 0, 0), euler.x)).mul(new Quaternion(new Vector(0, 1, 0), euler.y));
+
+        return forward.rotate(r);
+    }
+
 }

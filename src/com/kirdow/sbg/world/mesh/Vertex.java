@@ -1,5 +1,6 @@
 package com.kirdow.sbg.world.mesh;
 
+import com.kirdow.sbg.render.RenderHelper;
 import com.kirdow.sbg.util.math.Vector;
 import org.lwjgl.opengl.GL11;
 
@@ -57,18 +58,15 @@ public class Vertex {
         return this;
     }
 
-    public Vertex run() {
-        if (position == null) return this;
+    public void run() {
+        if (position == null) return;
 
-        if (color != null)
-            GL11.glColor4f(color.x, color.y, color.z, color.w);
+        RenderHelper.color(color.x, color.y, color.z, color.w);
         if (normal != null)
-            GL11.glNormal3f(normal.x, normal.y, normal.z);
+            RenderHelper.normal(normal.x, normal.y, normal.z);
         if (texCoord != null)
-            GL11.glTexCoord2f(texCoord.x, texCoord.y);
-        GL11.glVertex3f(position.x, position.y, position.z);
-
-        return this;
+            RenderHelper.texcoord(texCoord.x, texCoord.y);
+        RenderHelper.vertex(position.x, position.y, position.z);
     }
 
 }

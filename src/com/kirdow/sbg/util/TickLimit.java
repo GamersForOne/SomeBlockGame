@@ -13,6 +13,7 @@ public class TickLimit {
     private int readyTicks;
 
     private double lastNano = -1.0;
+    private boolean overflow = true;
 
     public TickLimit(double tps) {
         this.tps = tps;
@@ -20,6 +21,14 @@ public class TickLimit {
 
         timeElapsed = 0.0;
         readyTicks = 0;
+    }
+
+    public boolean isOverflow() {
+        return overflow;
+    }
+
+    public void setOverflow(boolean overflow) {
+        this.overflow = overflow;
     }
 
     private double deltaTime() {
@@ -42,9 +51,16 @@ public class TickLimit {
         while (timeElapsed >= limitTime) {
             timeElapsed -= limitTime;
             ++readyTicks;
+            if (!overflow) {
+                readyTicks = 1;
+                break;
+            }
         }
 
-        return this.readyTicks-- > 0;
+        boolean ready = readyTicks-- > 0;
+        if (readyTicks < 0) readyTicks = 0;
+
+        return ready;
     }
 
 }
